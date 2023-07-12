@@ -8,3 +8,10 @@ Sanal makine yöneticisinde çalışan Linux İşletim Sisteminde mevcut diskin 
 ```ruby
 ssh ubuntu@192.168.56.112
 ```
+
+Disk boyutunu artırma işlemi süper kullanıcısı olmanın da ötesinde doğrudan root kullanıcısı olarak bir dizi komut satırı işlemi gerektirdiğinden öncelikle mevcut kullanıcıyı root kullanıcısı olarak değiştirmek gerekecektir. Bunun için `sudo -i` komutu kullanılacaktır. Bu komut süper kullanıcı parolası gerektirecektir.
+```ruby
+ubuntu@ubuntu-local:~$ sudo -i
+[sudo] password for ubuntu:
+root@ubuntu-local:~#
+```
