@@ -24,3 +24,10 @@ root@ubuntu-local:~# lsblk
 lsblk komutunun verdiği bilgilere göre de makinenin diski sda’da sda1, sda2 ve sda3 olmak üzere 3bölümden oluşmaktadır. sda disk bölümü 60 GB’tır. sda3’ün altında pembe yazı rengi ile gösterilen satırda 38 GB’lık disk alanı kök dizin (/) tarafından kullanılmaktadır.
 
 Buradan görüleceği üzere kök (/) dizini 38 GB’lık disk alanına sahip olup sanal makine yönetici panelinde20 GB’lık disk alanı işletim sisteminin kullanımına henüz sunulmamıştır. Bununla birlikte, boyutuartırılan diskin sda bölümüne eklendiği görülmektedir. Öncelikle `cfdisk /dev/sda`komutu ile bu eklenenyeni disk bölümlendirilecektir
+
+cfdisk /dev/sda komutu sonrasında terminal ekranında yukarıdaki satırlar görünecektir. Burada oktuşları ile boş alan (Free space) satırına inildiğinde sanal makine yönetici panelinde eklenen 20 GB’lıkdiskin boş ve biçimlendirilmemiş olarak durduğu görülmektedir. Type sütunu altında 20 GB’lık diskiçin herhangi bir dosya sistemi bulunmamaktadır. Öncelikle sol altta bulunan New üzerine ok tuşları ilegelerek klavyede enter tuşuna basılmalıdır. Sol altta Partition size: 20G ifadesi görünecektir. Bu ifadegörüldüğünde klavyede enter tuşuna basılarak bölümlendirme boyutunun 20 GB olduğu onaylanacaktır.Enter tuşuna basıldıktan sonra son durum aşağıdaki gibi olacaktır. Bu aşamada değişikliğin etkin olmasıiçin ok tuşlarıyla Yaz (Write) üzerine gelinip klavyede enter tuşuna basılmalıdır. Sol altta belirecek Areyou sure you want to write the partition table to disk? ifadesinin karşısına klavyede yesyazıp enter tuşuna basılarak işlem tamamlanacaktır. Yes tuşuna basıldıktan sonra ok tuşlarıyla Quit üzerinegelinip enter tuşuna basılarak disk bölümlendirme ekranından çıkılacaktır.
+
+Disk bölümlendirmenin etkin olabilmesi için işletim sisteminin yeniden başlatılması istenmiyorsa `partprobe /dev/sda` komutu kullanılmalıdır. Bu komut kullanılmayacaksa disk bölümlendirmeninsistem tarafından algılanabilmesi için reboot ya da shutdown -r now komutlarından biri ile yenidenbaşlatılması gerekmektedir.
+```ruby
+root@ubuntu-local:~# partprobe /dev/sda
+```
