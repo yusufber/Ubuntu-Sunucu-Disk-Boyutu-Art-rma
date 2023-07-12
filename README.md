@@ -83,7 +83,7 @@ gibi girilerek ubuntu-vg disk grubu genişletilecektir
 Sonraki aşamada mantıksal bölüm disk yolunu öğrenilecektir. Mantıksal bölüm disk yolu mantıksal
 bölümü genişletmek için kullanılan lvextend komutu ile eklenen diskteki tüm boş alanın mevcut mantıksal
 bölüme eklenmesinde kullanılacaktır. lvdisplay komutu ile mantıksal bölüm disk yolu öğrenilecektir
-
+```ruby
 root@ubuntu-local:~# lvdisplay
 --- Logical volume ---
 LV Path /dev/ubuntu-vg/ubuntu-lv
@@ -101,9 +101,10 @@ Allocation inherit
 Read ahead sectors auto
 - currently set to 256
 Block device 253:0
-
+```
 Sonraki aşamada lvextend komutu aşağıdaki gibi kullanılarak mantıksal bölüm tüm boş alan kullanılacak
 şekilde genişletilecektir:
+```ruby
 root@ubuntu-local:~# lvextend -l +100%FREE /dev/ubuntu-vg/ubuntu-lv
 Size of logical volume ubuntu-vg/ubuntu-lv changed from <38.00 GiB (9727 extents)
 to 57.99 GiB (14846 extents).
@@ -125,3 +126,4 @@ tmpfs 2.0G 0 2.0G 0% /dev/shm
 tmpfs 5.0M 0 5.0M 0% /run/lock
 /dev/sda2 2.0G 247M 1.6G 14% /boot
 tmpfs 393M
+```
