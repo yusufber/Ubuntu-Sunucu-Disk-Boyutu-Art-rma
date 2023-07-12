@@ -50,3 +50,78 @@ sda 8:0 0 60G 0 disk
 └─sda4 8:4 0 20G 0 part
 sr0 11:0 1 1024M 0 rom
 ```
+
+Oluşturulan bir disk bölümünün Mantıksal Bölüm Yönetimi (LVM) tarafından algılanabilmesi içinöncelikle bu bölümün fiziksel bölüm (pyhsical volume) hâline getirilmesi gereklidir. sda4 fiziksel taraftanbakıldığında disk bölümü olmakla birlikte Mantıksal Bölüm Yönetimi tarafından bakıldığında bir fizikselbölümdür. Öncelikle `pvcreate /dev/sda4` komutu ile sda4 adında bir fiziksel bölüm oluşturulmalıdır
+```ruby
+root@ubuntu-local:~# pvcreate /dev/sda4
+Physical volume “/dev/sda4” successfully created.
+```
+Sonrasında vgdisplay komutu ile diskin ekleneceği bölüm grubu adı (ubuntu-vg) öğrenilecektir. Bölüm
+grubu adı bir sonraki aşamada bölümü büyütme komutu olan vgextend ile kullanılacaktır.
+```ruby
+root@ubuntu-local:~# vgdisplay
+--- Volume group ---
+VG Name ubuntu-vg
+System ID
+Format lvm2
+Metadata Areas 1
+Metadata Sequence No 4
+VG Access read/write
+VG Status resizable
+VG Size <38.00 GiB
+PE Size 4.00 MiB
+Total PE 9727
+Alloc PE / Size 9727 / <38.00 GiB
+Free PE / Size 0 / 0
+VG UUID H5kXUE-YF5c-tbl2-Qnyo-oYz1-m9m5-1QQdIH
+```
+
+vgextend ve ardından disk grubu_adı (ubuntu-vg) ve yeni disk bloğu (/dev/sad4) parametreleri aşağıdaki
+gibi girilerek ubuntu-vg disk grubu genişletilecektir
+
+
+Sonraki aşamada mantıksal bölüm disk yolunu öğrenilecektir. Mantıksal bölüm disk yolu mantıksal
+bölümü genişletmek için kullanılan lvextend komutu ile eklenen diskteki tüm boş alanın mevcut mantıksal
+bölüme eklenmesinde kullanılacaktır. lvdisplay komutu ile mantıksal bölüm disk yolu öğrenilecektir
+
+root@ubuntu-local:~# lvdisplay
+--- Logical volume ---
+LV Path /dev/ubuntu-vg/ubuntu-lv
+LV Name ubuntu-lv
+VG Name ubuntu-vg
+LV UUID MXO2ud-hQ0P-1h13-arTd-Mo6Y-uh4V-Y7YEvV
+LV Write Access read/write
+LV Creation host, time ubuntu-server, 2022-08-19 06:02:58 +0000
+LV Status available
+# open 1
+LV Size <38.00 GiB
+Current LE 9727
+Segments 1
+Allocation inherit
+Read ahead sectors auto
+- currently set to 256
+Block device 253:0
+
+Sonraki aşamada lvextend komutu aşağıdaki gibi kullanılarak mantıksal bölüm tüm boş alan kullanılacak
+şekilde genişletilecektir:
+root@ubuntu-local:~# lvextend -l +100%FREE /dev/ubuntu-vg/ubuntu-lv
+Size of logical volume ubuntu-vg/ubuntu-lv changed from <38.00 GiB (9727 extents)
+to 57.99 GiB (14846 extents).
+Logical volume ubuntu-vg/ubuntu-lv successfully resized.
+Son adımda yeni oluşturulan boş alan kök (/) dizinine eklenerek dosya sistemi yeniden boyutlandırılacaktır.
+Bunun için resize2fs komutu mantıksal bölüm konumu ile birlikte kullanılacaktır:
+root@ubuntu-local:~# resize2fs /dev/ubuntu-vg/ubuntu-lv
+resize2fs 1.46.5 (30-Dec-2021)
+Filesystem at /dev/ubuntu-vg/ubuntu-lv is mounted on /; on-line resizing required
+old_desc_blocks = 5, new_desc_blocks = 8
+The filesystem on /dev/ubuntu-vg/ubuntu-lv is now 15202304 (4k) blocks long.
+Artık df -h komutu ile sanal makinenin mevcut disk durumu görüntülenecektir. Görüleceği üzere disk
+eklenmeden önce 38 GB olan kök dizinin boyutu disk ekleme sürecinden sonra 57 GB olarak artırılmıştır.
+root@ubuntu-local:~# df -h
+Filesystem Size Used Avail Use% Mounted on
+tmpfs 393M 1.1M 392M 1% /run
+/dev/mapper/ubuntu--vg-ubuntu--lv 57G 7.6G 47G 14% /
+tmpfs 2.0G 0 2.0G 0% /dev/shm
+tmpfs 5.0M 0 5.0M 0% /run/lock
+/dev/sda2 2.0G 247M 1.6G 14% /boot
+tmpfs 393M
