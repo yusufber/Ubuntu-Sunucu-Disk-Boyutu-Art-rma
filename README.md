@@ -1,0 +1,1 @@
+# Ubuntu-Sunucu-Disk-Boyutu-Art-rma
