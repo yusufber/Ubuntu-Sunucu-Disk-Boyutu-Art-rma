@@ -22,3 +22,5 @@ root@ubuntu-local:~# lsblk
 ```
 
 lsblk komutunun verdiği bilgilere göre de makinenin diski sda’da sda1, sda2 ve sda3 olmak üzere 3bölümden oluşmaktadır. sda disk bölümü 60 GB’tır. sda3’ün altında pembe yazı rengi ile gösterilen satırda 38 GB’lık disk alanı kök dizin (/) tarafından kullanılmaktadır.
+
+Buradan görüleceği üzere kök (/) dizini 38 GB’lık disk alanına sahip olup sanal makine yönetici panelinde20 GB’lık disk alanı işletim sisteminin kullanımına henüz sunulmamıştır. Bununla birlikte, boyutuartırılan diskin sda bölümüne eklendiği görülmektedir. Öncelikle `cfdisk /dev/sda komutu` ile bu eklenenyeni disk bölümlendirilecektir
