@@ -20,3 +20,5 @@ Sunucu disk bloklarını listelemek `lsblk` komutu çalıştırılacaktır.
 ```ruby
 root@ubuntu-local:~# lsblk
 ```
+
+lsblk komutunun verdiği bilgilere göre de makinenin diski sda’da sda1, sda2 ve sda3 olmak üzere 3bölümden oluşmaktadır. sda disk bölümü 60 GB’tır. sda3’ün altında pembe yazı rengi ile gösterilen satırda 38 GB’lık disk alanı kök dizin (/) tarafından kullanılmaktadır.
