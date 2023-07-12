@@ -15,3 +15,8 @@ ubuntu@ubuntu-local:~$ sudo -i
 [sudo] password for ubuntu:
 root@ubuntu-local:~#
 ```
+
+Sunucu disk bloklarını listelemek `lsblk` komutu çalıştırılacaktır.
+```ruby
+root@ubuntu-local:~# lsblk
+```
