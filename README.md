@@ -4,4 +4,7 @@ Linux İşletim Sistemi kurulumu tamamlandıktan sonra kullanım amacına bağl�
 ## Mevcut Disk Boyutunu Artırarak Diski Büyütme
 Sanal makine yöneticisinde çalışan Linux İşletim Sisteminde mevcut diskin boyutunu artırmak için öncelikle Linux İşletim Sisteminin çalıştığı makine komut satırı arayüzünde sudo shutdown -h now komutu ile kapatılmalıdır. Makine kapatıldıktan sonra VirtualBox sanal ortam yöneticisinden disk boyutunu artırmak istediğimiz makinenin diski 40 GB olarak ayarlanmalıdır. 
 
-İşlem tamamlandıktan sonra sanal makinemizi açıyoruz. 
+İşlem tamamlandıktan sonra sanal makinemizi açıyoruz. Makine açıldıktan sonra terminal ekranından sunucuya aşağıdaki örnekte belirtildiği gibi ssh protolü ile bağlanıyoruz:
+```ruby
+ssh ubuntu@192.168.56.112
+```
