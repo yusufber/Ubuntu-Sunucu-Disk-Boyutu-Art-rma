@@ -31,3 +31,22 @@ Disk bölümlendirmenin etkin olabilmesi için işletim sisteminin yeniden başl
 ```ruby
 root@ubuntu-local:~# partprobe /dev/sda
 ```
+
+lsblk komutu tekrar çalıştırıldığında aşağıda mavi yazı rengi ile görüldüğü üzere 20 GB’lık diskin sda4olarak disk bloğuna eklenmiş olarak karşımıza çıkacaktır:
+```ruby
+root@ubuntu-local:~# lsblk
+NAME MAJ:MIN RM SIZE RO TYPE MOUNTPOINTS
+loop0 7:0 0 62M 1 loop /snap/core20/1611
+loop1 7:1 0 79.9M 1 loop /snap/lxd/22923
+loop2 7:2 0 103M 1 loop /snap/lxd/23541
+loop3 7:3 0 44.7M 1 loop /snap/snapd/15534
+loop4 7:4 0 63.2M 1 loop /snap/core20/1623
+loop5 7:5 0 47M 1 loop /snap/snapd/16292
+sda 8:0 0 60G 0 disk
+├─sda1 8:1 0 1M 0 part
+├─sda2 8:2 0 2G 0 part /boot
+├─sda3 8:3 0 38G 0 part
+│ └─ubuntu--vg-ubuntu--lv 253:0 0 38G 0 lvm /
+└─sda4 8:4 0 20G 0 part
+sr0 11:0 1 1024M 0 rom
+```
